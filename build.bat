@@ -46,4 +46,5 @@ pyinstaller -F main.py -i icon.ico --exclude-module matplotlib ^
                            --exclude-module wrapt ^
                            --exclude-module astroid ^
                            --exclude-module isort
+echo Build Sucessfull!
 pause
