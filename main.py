@@ -5,22 +5,22 @@ import requests
 import re
 import json
 
+"""
+定义控制台命令执行函数
+需传入参数(命令)
+"""
+def console_command(command):
+    f_handler = open('temp.log', 'w')  # 打开 temp.log 文件
+    old_stdout = sys.stdout  # 保存默认的 Python 标准输出
+    sys.stdout = f_handler  # # 将 Python 标准输出指向 out.log
+    os.system(command)  # 使用传入的参数执行命令
+    sys.stdout = old_stdout  # 恢复 Python 默认的标准输出
+
+
 '''
 定义程序整体函数
 '''
 def file_get():
-
-    """
-    定义控制台命令执行函数
-    需传入参数(命令)
-    """
-    def console_command(command):
-        f_handler = open('temp.log', 'w')  # 打开 temp.log 文件
-        old_stdout = sys.stdout  # 保存默认的 Python 标准输出
-        sys.stdout = f_handler  # # 将 Python 标准输出指向 out.log
-        os.system(command)  # 使用传入的参数执行命令
-        sys.stdout = old_stdout  # 恢复 Python 默认的标准输出
-
     """
     获取视频链接
     """
@@ -47,6 +47,7 @@ def file_get():
         print("您输入的 BV / AV 号有误!请重新输入：")
         file_get()  # 调用 file_get 函数
     else:
+        console_command('title Bilibili Video Get - 获取文件')
         console_command('cls')  # 调用 console_command 函数并传入参数 cls
         video_url = url_data['data']['dash']['video'][0]['backupUrl'][0]  # 获取视频文件链接
         audio_url = url_data['data']['dash']['audio'][0]['backupUrl'][0]  # 获取音频文件链接
@@ -54,26 +55,61 @@ def file_get():
         video_file = requests.get(video_url, headers=headers).content  # 获取视频二进制文件
         audio_file = requests.get(audio_url, headers=headers).content  # 获取音频二进制文件
 
-        """
-        定义文件无权限写入错误处理方法
-        """
-        try:
-            with open('audio.mp3', 'wb') as f:
-                f.write(audio_file)  # 保存音频文件
-            with open('video.mp4', 'wb') as f:
-                f.write(video_file)  # 保存视频文件
-        except IOError:
-            console_command('cls')  # 调用 console_command 函数并传入参数 cls
-            print("文件保存失败!\n请手动删除以下文件：\nvideo.mp4 audio.mp3 output.mp4")
-            console_command('pause')  # 调用 console_command 函数并传入参数 pause
+    def select_action():
+        console_command('title Bilibili Video Get - 合并完成')
+        print(video_id + " 合并完成!\n\n是否还要继续获取其他视频?\n输入 1 并回车以继续获取其他视频\n输入 2 并回车以退出程序")
+        sec_info = input()
+        if sec_info == '1':
+            console_command('title Bilibili Video Get - 请输入 BV / AV 号')
+            print("请输入 BV / AV 号:")
+            file_get()
+        if sec_info == '2':
+            sys.exit()
         else:
-            console_command('cls')  # 调用 console_command 函数并传入参数 cls
-            print("\n正在执行合并操作, 请稍等...")
-            console_command('ffmpeg -y -i video.mp4 -i audio.mp3 -c:v copy -c:a aac -strict experimental output.mp4')  # console_command 函数并传入参数 ffmpeg...
-            console_command('cls')  # 调用 console_command 函数并传入参数 cls
-            print("已合并完成!")
-            console_command('pause')  # 调用 console_command 函数并传入参数 pause
+            print("您输入的选项有误!请重新输入：")
+            select_action()
+
+    try:
+        with open('audio.mp3', 'wb') as f:
+            f.write(audio_file)  # 保存音频文件
+        with open('video.mp4', 'wb') as f:
+            f.write(video_file)  # 保存视频文件
+    except IOError:  # 定义文件无权限写入错误处理方法
+        console_command('cls')  # 调用 console_command 函数并传入参数 cls
+        print("文件保存失败!\n请手动删除以下文件：\nvideo.mp4 audio.mp3 output.mp4")
+        input("\n按下回车键以关闭程序")
+    else:
+        console_command('cls')  # 调用 console_command 函数并传入参数 cls
+        print("\n正在执行合并操作, 请稍等...")
+        console_command('ffmpeg -y -i video.mp4 -i audio.mp3 -c:v copy -c:a aac -strict experimental output.mp4')  # console_command 函数并传入参数 ffmpeg...
+        console_command('cls')  # 调用 console_command 函数并传入参数 cls
+        select_action()
 
 
-print("请输入 BV / AV 号:")
-file_get()  # 调用 file_get 函数
+def prepare_check():
+    console_command('title Bilibili Video Get - 运行前环境检查')
+    print("请确认您已将 FFmpeg.exe 放到此程序同目录下或添加到系统环境变量中!\n\n输入 1 并回车以确认在系统环境变量中\n输入 2 并回车以确认在此程序同目录下")
+    check_select = input()
+    if check_select == '1':
+        console_command('cls')
+        console_command('title Bilibili Video Get - 请输入 BV / AV 号')
+        print("请输入 BV / AV 号:")
+        file_get()
+    if check_select == '2':
+        ffmpeg_info = os.path.isfile("ffmpeg.exe")
+        if ffmpeg_info:
+            print("请输入 BV / AV 号:")
+            file_get()  # 调用 file_get 函数
+        if not ffmpeg_info:
+            console_command('cls')
+            print("找不到 ffmpeg.exe!\n请下载 FFmpeg 并将 ffmpeg.exe 放到此程序同目录下")
+            input("\n按下回车键以重载程序")
+            console_command('cls')
+            prepare_check()
+    else:
+        print("你输入的选项有误!请重新输入：")
+        prepare_check()
+
+
+console_command('title Bilibili Video Get')
+prepare_check()
