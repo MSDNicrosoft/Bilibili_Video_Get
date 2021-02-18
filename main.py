@@ -14,7 +14,7 @@ def file_get():
     定义控制台命令执行函数
     需传入参数(命令)
     """
-    def console_command(command):  #
+    def console_command(command):
         f_handler = open('out.log', 'w')  # 打开 out.log 文件
         old_stdout = sys.stdout  # 保存默认的 Python 标准输出
         sys.stdout = f_handler  # # 将 Python 标准输出指向 out.log
