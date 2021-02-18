@@ -1,14 +1,17 @@
 # -*- coding: UTF-8 -*-
-import os
-import sys
-import requests
-import re
 import json
+import os
+import re
+import sys
+
+import requests
 
 """
 定义控制台命令执行函数
 需传入参数(命令)
 """
+
+
 def console_command(command):
     f_handler = open('temp.log', 'w')  # 打开 temp.log 文件
     old_stdout = sys.stdout  # 保存默认的 Python 标准输出
@@ -20,6 +23,8 @@ def console_command(command):
 '''
 定义程序整体函数
 '''
+
+
 def file_get():
     """
     获取视频链接
