@@ -1,17 +1,15 @@
 # -*- coding: UTF-8 -*-
-import json
 import os
-import re
 import sys
-
 import requests
+import re
+import json
+
 
 """
 定义控制台命令执行函数
 需传入参数(命令)
 """
-
-
 def console_command(command):
     f_handler = open('temp.log', 'w')  # 打开 temp.log 文件
     old_stdout = sys.stdout  # 保存默认的 Python 标准输出
@@ -60,19 +58,20 @@ def file_get():
         video_file = requests.get(video_url, headers=headers).content  # 获取视频二进制文件
         audio_file = requests.get(audio_url, headers=headers).content  # 获取音频二进制文件
 
-    def select_action():
-        console_command('title Bilibili Video Get - 合并完成')
+    def select_action():  # 定义 select_action 函数
+        console_command('title Bilibili Video Get - 合并完成')  # 调用 console_command 函数并传入参数 title...
         print(video_id + " 合并完成!\n\n是否还要继续获取其他视频?\n输入 1 并回车以继续获取其他视频\n输入 2 并回车以退出程序")
         sec_info = input()
         if sec_info == '1':
-            console_command('title Bilibili Video Get - 请输入 BV / AV 号')
+            console_command('cls')  # 调用 console_command 函数并传入参数 cls
+            console_command('title Bilibili Video Get - 请输入 BV / AV 号')  # 调用 console_command 函数并传入参数 title...
             print("请输入 BV / AV 号:")
-            file_get()
+            file_get()  # 调用 file_get 函数
         if sec_info == '2':
-            sys.exit()
+            sys.exit()  # 退出程序
         else:
             print("您输入的选项有误!请重新输入：")
-            select_action()
+            select_action()  # 调用 select_action 函数
 
     try:
         with open('audio.mp3', 'wb') as f:
@@ -86,9 +85,9 @@ def file_get():
     else:
         console_command('cls')  # 调用 console_command 函数并传入参数 cls
         print("\n正在执行合并操作, 请稍等...")
-        console_command('ffmpeg -y -i video.mp4 -i audio.mp3 -c:v copy -c:a aac -strict experimental output.mp4')  # console_command 函数并传入参数 ffmpeg...
+        console_command('ffmpeg -y -i video.mp4 -i audio.mp3 -c:v copy -c:a aac -strict experimental output.mp4')  # 调用 console_command 函数并传入参数 ffmpeg.exe
         console_command('cls')  # 调用 console_command 函数并传入参数 cls
-        select_action()
+        select_action()  # 调用 select_action 函数
 
 
 def prepare_check():
@@ -96,25 +95,25 @@ def prepare_check():
     print("请确认您已将 FFmpeg.exe 放到此程序同目录下或添加到系统环境变量中!\n\n输入 1 并回车以确认在系统环境变量中\n输入 2 并回车以确认在此程序同目录下")
     check_select = input()
     if check_select == '1':
-        console_command('cls')
-        console_command('title Bilibili Video Get - 请输入 BV / AV 号')
+        console_command('cls')  # 调用 console_command 函数并传入参数 cls
+        console_command('title Bilibili Video Get - 请输入 BV / AV 号')  # 调用 console_command 函数并传入参数 title...
         print("请输入 BV / AV 号:")
-        file_get()
+        file_get()  # 调用 file_get 函数
     if check_select == '2':
-        ffmpeg_info = os.path.isfile("ffmpeg.exe")
-        if ffmpeg_info:
+        ffmpeg_info = os.path.isfile("ffmpeg.exe")  # 判断 ffmpeg.exe 是否存在
+        if ffmpeg_info:  # 如果存在
             print("请输入 BV / AV 号:")
             file_get()  # 调用 file_get 函数
-        if not ffmpeg_info:
-            console_command('cls')
+        if not ffmpeg_info:  # 如果不存在
+            console_command('cls')  # 调用 console_command 函数并传入参数 cls
             print("找不到 ffmpeg.exe!\n请下载 FFmpeg 并将 ffmpeg.exe 放到此程序同目录下")
             input("\n按下回车键以重载程序")
-            console_command('cls')
-            prepare_check()
+            console_command('cls')  # 调用 console_command 函数并传入参数 cls
+            prepare_check()  # 调用 prepare_check 函数
     else:
         print("你输入的选项有误!请重新输入：")
-        prepare_check()
+        prepare_check()  # 调用 prepare_check 函数
 
 
-console_command('title Bilibili Video Get')
-prepare_check()
+console_command('title Bilibili Video Get')  # 调用 console_command 函数并传入参数 title...
+prepare_check()  # 调用 prepare_check 函数
