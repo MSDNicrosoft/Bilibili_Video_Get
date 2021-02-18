@@ -18,11 +18,9 @@ def console_command(command):
     sys.stdout = old_stdout  # 恢复 Python 默认的标准输出
 
 
-'''
+"""
 定义程序整体函数
-'''
-
-
+"""
 def file_get():
     """
     获取视频链接
@@ -38,14 +36,11 @@ def file_get():
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36',  # 定义 User-Agent
         'Referer': request_url  # 定义 Referer
     }
-    html_data = requests.get(request_url, headers=headers).text  # 向 video_url 发送 GET 请求并使用定义的 headers 以获取 HTML 源代码
+    html_data = requests.get(request_url, headers=headers).text  # 向 request_url 发送 GET 请求并使用定义的 headers 以获取 HTML 源代码
 
-    """
-    定义 BV / AV 号输入错误处理方法
-    """
     try:
         url_data = json.loads(re.findall('<script>window\.__playinfo__=(.*?)</script>', html_data)[0])  # 通过正则表达式匹配 , 获取 Json 文本并解析为 Json 格式
-    except Exception:
+    except Exception:  # 定义 BV / AV 号输入错误处理方法
         console_command('cls')  # 调用 console_command 函数并传入参数 cls
         print("您输入的 BV / AV 号有误!请重新输入：")
         file_get()  # 调用 file_get 函数
