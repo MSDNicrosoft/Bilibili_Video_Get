@@ -29,13 +29,13 @@ def file_get():
     request_url = "https://www.bilibili.com/video/" + video_id  # 补充为完整链接
 
     """
-    请求网页并输出 Json 文本
+    请求网页
     """
     headers = {  # 定义 headers
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36',  # 定义 User-Agent
         'Referer': request_url  # 定义 Referer
     }
-    html_data = requests.get(request_url, headers=headers).text  # 向 video_url 发送 GET 请求并使用定义的 headers , # 获取 HTML 源代码
+    html_data = requests.get(request_url, headers=headers).text  # 向 video_url 发送 GET 请求并使用定义的 headers 以获取 HTML 源代码
 
     """
     定义 BV / AV 号输入错误处理方法
