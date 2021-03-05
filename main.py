@@ -55,7 +55,7 @@ def file_get():
 
     def select_action():  # 定义 select_action 函数
         console_command('title Bilibili Video Get - 合并完成')  # 调用 console_command 函数并传入参数 title...
-        print(video_id + " 合并完成!\n\n是否还要继续获取其他视频?\n输入 1 并回车以继续获取其他视频\n输入 2 并回车以退出程序")
+        print(" 合并完成!\n\n是否还要继续获取其他视频?\n输入 1 并回车以继续获取其他视频\n输入 2 并回车以退出程序")
         sec_info = input()
         if sec_info == '1':
             console_command('cls')  # 调用 console_command 函数并传入参数 cls
@@ -65,6 +65,7 @@ def file_get():
         if sec_info == '2':
             sys.exit()  # 退出程序
         else:
+            console_command('cls')
             print("您输入的选项有误!请重新输入：")
             select_action()  # 调用 select_action 函数
 
@@ -87,7 +88,7 @@ def file_get():
 
 def prepare_check():
     console_command('title Bilibili Video Get - 运行前环境检查')
-    print("请确认您已将 FFmpeg.exe 放到此程序同目录下或添加到系统环境变量中!\n\n输入 1 并回车以确认在系统环境变量中\n输入 2 并回车以确认在此程序同目录下")
+    print("请确认您已将 ffmpeg.exe 放到此程序同目录下或添加到系统环境变量中!\n\n输入 1 并回车以确认在系统环境变量中\n输入 2 并回车以确认在此程序同目录下")
     check_select = input()
     if check_select == '1':
         console_command('cls')  # 调用 console_command 函数并传入参数 cls
