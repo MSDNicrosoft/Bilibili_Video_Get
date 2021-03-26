@@ -6,7 +6,7 @@ import re
 import json
 
 """
-Just only for Windows 
+Just only for Windows
 """
 
 
@@ -25,9 +25,14 @@ def console_command(command):
 """
 配置文件加载
 """
-config = json.load(open(file="config.json"))
-ffmpeg_config = config['ffmpeg_in_variables']
-download_config = config['uninterrupted']
+try:
+    config = json.load(open(file="config.json"))
+except FileNotFoundError:
+    print("配置文件文件未找到!\n已重新生成！")
+    console_command('curl https://gitee.com/MSDNicrosoft/blogstorge/raw/master/conf/config.json -O')
+else:
+    ffmpeg_config = config['ffmpeg_in_variables']
+    download_config = config['uninterrupted']
 
 
 """
