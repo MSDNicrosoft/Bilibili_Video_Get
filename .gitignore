@@ -130,7 +130,6 @@ dmypy.json
 .pyre/
 
 # Test Files
-test_module.py
 *.mp3
 *.mp4
 clean_cache.bat

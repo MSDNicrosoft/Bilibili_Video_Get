@@ -28,9 +28,13 @@ def console_command(command):
 try:
     config = json.load(open(file="config.json"))
 except FileNotFoundError:
-    print("配置文件文件未找到!已重新生成！\n\n")
+    print("配置文件未找到!已重新生成!\n\n")
     console_command('curl https://gitee.com/MSDNicrosoft/blogstorge/raw/master/conf/config.json -O')
     print("请重启程序!")
+    sys.exit()
+except json.decoder.JSONDecodeError:
+    print("配置文件格式错误!请检查!\n")
+    input("按下回车退出程序")
     sys.exit()
 else:
         ffmpeg_config = config['ffmpeg_in_variables']
@@ -51,10 +55,9 @@ def file_get():
     """
     请求网页
     """
-    headers = {  # 定义 headers
+    headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36',
-        # 定义 User-Agent
-        'Referer': request_url  # 定义 Referer
+        'Referer': request_url
     }
     html_data = requests.get(request_url, headers=headers).text
 
