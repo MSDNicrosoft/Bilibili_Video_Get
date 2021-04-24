@@ -15,9 +15,7 @@ Just only for Windows
 需传入参数(命令)
 """
 def console_command(command):
-    f_handler = open('temp.log', 'w')
     old_stdout = sys.stdout  # 保存默认的 Python 标准输出
-    sys.stdout = f_handler  # 将 Python 标准输出指向 temp.log
     os.system(command)
     sys.stdout = old_stdout  # 恢复 Python 默认的标准输出
 
